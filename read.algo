@@ -1,0 +1,55 @@
+ALGORITHM DistintSum
+VAR
+    // Declare arrays and variables
+    set1[4] : INTEGER
+    set2[5] : INTEGER
+    sum : INTEGER
+    i : INTEGER
+    j : INTEGER
+    found : BOOLEAN
+BEGIN
+    // Initialize sum and sets
+    sum := 0
+    set1 := [3, 1, 7, 9]
+    set2 := [2, 4, 1, 9, 3]
+
+    // --- First Pass: Check elements of set1 against set2 ---
+    FOR i = 0 TO length(set1) - 1 DO
+        found := FALSE
+        
+        // Look for the current element of set1 in all of set2
+        FOR j = 0 TO length(set2) - 1 DO
+            IF set1[i] == set2[j] THEN
+                found := TRUE // Match found, not a distinct element
+                BREAK        // Optimization: exit inner loop
+            END_IF
+        END_FOR
+        
+        // If element was never found in set2, add it to sum
+        IF found == FALSE THEN
+            sum := sum + set1[i]
+        END_IF
+    END_FOR
+
+    // --- Second Pass: Check elements of set2 against set1 ---
+    FOR j = 0 TO length(set2) - 1 DO
+        found := FALSE
+        
+        // Look for the current element of set2 in all of set1
+        FOR i = 0 TO length(set1) - 1 DO
+            IF set2[j] == set1[i] THEN
+                found := TRUE // Match found, not a distinct element
+                BREAK        // Optimization: exit inner loop
+            END_IF
+        END_FOR
+        
+        // If element was never found in set1, add it to sum
+        IF found == FALSE THEN
+            sum := sum + set2[j]
+        END_IF
+    END_FOR
+
+    // Output the final sum of all unique (distinct) elements
+    print sum
+    
+END
