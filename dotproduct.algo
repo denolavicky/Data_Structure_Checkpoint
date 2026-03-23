@@ -1,0 +1,78 @@
+// Procedure that calculates the dot product of two vectors
+// ps is passed by reference (OUT) so the result is available in the main algorithm
+PROCEDURE dot_product(v1[] : REAL, v2[] : REAL, n : INTEGER, OUT ps : REAL)
+  DECLARE i : INTEGER       // loop counter
+
+  ps = 0                    // initialize ps to 0 before calculation
+  FOR i = 0 TO n - 1
+    ps = ps + (v1[i] * v2[i])   // multiply matching elements and add to ps
+  END FOR
+END PROCEDURE
+
+BEGIN
+  // Variable declarations
+  DECLARE n        : INTEGER   // number of vector pairs
+  DECLARE size     : INTEGER   // size of each vector
+  DECLARE k, i     : INTEGER   // loop counters
+  DECLARE ps       : REAL      // stores the dot product result
+  DECLARE v1[100]  : REAL      // first vector
+  DECLARE v2[100]  : REAL      // second vector
+
+  READ n                             // read how many pairs of vectors to check
+  FOR k = 1 TO n                    // outer loop — goes through each pair
+    READ size                        // read the size of the current vectors
+    FOR i = 0 TO size - 1           // inner loop — reads each element of the vectors
+      READ v1[i]                     // read element i of first vector
+      READ v2[i]                     // read element i of second vector
+    END FOR
+
+    CALL dot_product(v1, v2, size, ps)  // call procedure, ps is filled by reference
+
+    // check if dot product is zero — if yes vectors are orthogonal
+    IF ps == 0 THEN
+      PRINT "Vectors are orthogonal"
+    ELSE
+      PRINT "Vectors are NOT orthogonal"
+    END IF
+  END FOR
+END
+
+// Function version — returns the dot product value instead of using OUT parameter
+FUNCTION dot_product(v1[] : REAL, v2[] : REAL, n : INTEGER) : REAL
+  DECLARE i      : INTEGER   // loop counter
+  DECLARE result : REAL      // stores the running total
+
+  result = 0                         // initialize result to 0
+  FOR i = 0 TO n - 1
+    result = result + (v1[i] * v2[i])  // multiply matching elements and add to result
+  END FOR
+  RETURN result                      // return the final dot product value
+END FUNCTION
+
+BEGIN
+  // Variable declarations
+  DECLARE n        : INTEGER   // number of vector pairs
+  DECLARE size     : INTEGER   // size of each vector
+  DECLARE k, i     : INTEGER   // loop counters
+  DECLARE ps       : REAL      // stores the returned dot product result
+  DECLARE v1[100]  : REAL      // first vector
+  DECLARE v2[100]  : REAL      // second vector
+
+  READ n                             // read how many pairs of vectors to check
+  FOR k = 1 TO n                    // outer loop — goes through each pair
+    READ size                        // read the size of the current vectors
+    FOR i = 0 TO size - 1           // inner loop — reads each element of the vectors
+      READ v1[i]                     // read element i of first vector
+      READ v2[i]                     // read element i of second vector
+    END FOR
+
+    ps = dot_product(v1, v2, size)  // call function and store returned value in ps
+
+    // check if dot product is zero — if yes vectors are orthogonal
+    IF ps == 0 THEN
+      PRINT "Vectors are orthogonal"
+    ELSE
+      PRINT "Vectors are NOT orthogonal"
+    END IF
+  END FOR
+END
